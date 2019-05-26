@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Levantamento.Domain.SeedWork
+namespace Levantamento.Domain.Core.Models
 {
     public abstract class Enumeration : IComparable
     {

@@ -1,8 +1,6 @@
 ﻿using Levantamento.Domain.AggregatesModel.Exceptions;
-using Levantamento.Domain.SeedWork;
+using Levantamento.Domain.Core.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Levantamento.Domain.AggregatesModel.LevantamentoAggregate
 {

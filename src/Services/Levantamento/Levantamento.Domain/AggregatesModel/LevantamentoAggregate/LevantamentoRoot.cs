@@ -1,8 +1,7 @@
 ﻿using Levantamento.Domain.AggregatesModel.Exceptions;
-using Levantamento.Domain.SeedWork;
+using Levantamento.Domain.Core.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Levantamento.Domain.AggregatesModel.LevantamentoAggregate
 {
@@ -16,11 +15,11 @@ namespace Levantamento.Domain.AggregatesModel.LevantamentoAggregate
         private List<Log> _logs;
         public IReadOnlyCollection<Log> Logs => _logs.AsReadOnly();
 
-        public LevantamentoRoot(string name, string description, DateTime start)
+        public LevantamentoRoot(string name, string description)
         {
             Name = !string.IsNullOrWhiteSpace(name) ? name : throw new ArgumentNullException(nameof(name));
             Description = !string.IsNullOrWhiteSpace(description) ? name : throw new ArgumentNullException(nameof(description));
-            Start = start > DateTime.Now ? start : throw new LevantamentoDomainException(nameof(start));
+            Start = DateTime.Now;
         }
 
     }

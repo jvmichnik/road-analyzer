@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Levantamento.Domain.SeedWork
+namespace Levantamento.Domain.Core.Models
 {
     public abstract class ValueObject
     {
