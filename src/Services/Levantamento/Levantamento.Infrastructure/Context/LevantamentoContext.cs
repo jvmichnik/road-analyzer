@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Levantamento.Infrastructure.Context
 {
-    public class LevantamentoContext : ILevantamentoContext
+    public class LevantamentoContext
     {
         private readonly IMongoDatabase _database = null;
-        private readonly List<Func<Task>> _commands;
+        private List<Func<Task>> _commands;
 
         public LevantamentoContext(IOptions<DataSettings> settings)
         {

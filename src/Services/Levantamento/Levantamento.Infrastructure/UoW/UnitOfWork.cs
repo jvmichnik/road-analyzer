@@ -1,4 +1,5 @@
-﻿using Levantamento.Infrastructure.Context;
+﻿using Levantamento.Domain.Core.Interfaces;
+using Levantamento.Infrastructure.Context;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Levantamento.Infrastructure.UoW
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
-        private readonly ILevantamentoContext _context;
+        private readonly LevantamentoContext _context;
 
-        public UnitOfWork(ILevantamentoContext context)
+        public UnitOfWork(LevantamentoContext context)
         {
             _context = context;
         }

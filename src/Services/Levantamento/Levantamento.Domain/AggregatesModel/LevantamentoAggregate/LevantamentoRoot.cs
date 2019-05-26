@@ -18,7 +18,7 @@ namespace Levantamento.Domain.AggregatesModel.LevantamentoAggregate
         public LevantamentoRoot(string name, string description)
         {
             Name = !string.IsNullOrWhiteSpace(name) ? name : throw new ArgumentNullException(nameof(name));
-            Description = !string.IsNullOrWhiteSpace(description) ? name : throw new ArgumentNullException(nameof(description));
+            Description = description;
             Start = DateTime.Now;
         }
 

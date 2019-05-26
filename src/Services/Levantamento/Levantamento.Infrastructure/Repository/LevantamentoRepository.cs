@@ -12,13 +12,13 @@ namespace Levantamento.Infrastructure.Repository
 {
     public class LevantamentoRepository : ILevantamentoRepository
     {
-        private readonly ILevantamentoContext _context;
+        private readonly LevantamentoContext _context;
         private readonly IMongoCollection<LevantamentoRoot> db;
 
-        public LevantamentoRepository(IOptions<DataSettings> settings)
+        public LevantamentoRepository(LevantamentoContext context)
         {
-            _context = new LevantamentoContext(settings);
-            var teste = _context.GetCollection<LevantamentoRoot>("Levantamento");
+            _context = context;
+            db = _context.GetCollection<LevantamentoRoot>("Levantamento");
         }
 
         public async Task<IEnumerable<LevantamentoRoot>> GetLevantamentosAsync()

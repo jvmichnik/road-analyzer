@@ -52,7 +52,6 @@ namespace Levantamento.Api
                     .AllowAnyHeader()
                     .AllowCredentials());
             });
-
             var container = new ContainerBuilder();
             container.Populate(services);
 
