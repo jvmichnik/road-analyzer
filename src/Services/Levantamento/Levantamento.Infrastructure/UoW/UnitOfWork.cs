@@ -15,9 +15,9 @@ namespace Levantamento.Infrastructure.UoW
             _context = context;
         }
 
-        public async Task<bool> Commit()
+        public bool Commit()
         {
-            var changeAmount = await _context.SaveChanges();
+            var changeAmount = _context.SaveChanges();
 
             return changeAmount > 0;
         }

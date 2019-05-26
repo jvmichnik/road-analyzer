@@ -1,5 +1,6 @@
 ﻿using Levantamento.Domain.Core.Commands;
 using Levantamento.Domain.Core.Events;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,8 @@ namespace Levantamento.Domain.Core.Bus
 {
     public interface IMediatorHandler
     {
-        Task SendCommand<T>(T command) where T : Command;
+        Task PublishCommand<T>(T command) where T : Command;
+        Task<TResponse> SendCommand<TResponse>(IRequest<TResponse> command);
         Task RaiseEvent<T>(T @event) where T : Event;
     }
 }

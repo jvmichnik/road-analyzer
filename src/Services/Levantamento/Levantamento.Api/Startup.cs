@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using HealthChecks.UI.Client;
+using Levantamento.Api.Infrastructure.AutofacModules;
 using Levantamento.Api.Infrastructure.Filters;
 using Levantamento.Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -27,10 +30,11 @@ namespace Levantamento.Api
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services
-                .AddCustomHealthCheck(Configuration)
+                .AddHealthChecks(Configuration)
+                .AddSwagger(Configuration)
                 .AddMvc(options =>
             {
                 options.Filters.Add(typeof(HttpGlobalExceptionFilter));
@@ -38,18 +42,6 @@ namespace Levantamento.Api
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.Configure<DataSettings>(Configuration);
-
-            services.AddSwaggerGen(options =>
-            {
-                options.DescribeAllEnumsAsStrings();
-                options.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
-                {
-                    Title = "eShopOnContainers - Location HTTP API",
-                    Version = "v1",
-                    Description = "The Location Microservice HTTP API. This is a Data-Driven/CRUD microservice sample",
-                    TermsOfService = "Terms Of Service"
-                });
-            });
 
             services.AddCors(options =>
             {
@@ -61,6 +53,12 @@ namespace Levantamento.Api
                     .AllowCredentials());
             });
 
+            var container = new ContainerBuilder();
+            container.Populate(services);
+
+            container.RegisterModule(new ApplicationModule());
+
+            return new AutofacServiceProvider(container.Build());
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -93,7 +91,7 @@ namespace Levantamento.Api
     }
     public static class CustomExtensionMethods
     {
-        public static IServiceCollection AddCustomHealthCheck(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
         {
             var hcBuilder = services.AddHealthChecks();
 
@@ -104,6 +102,23 @@ namespace Levantamento.Api
                     configuration["ConnectionString"],
                     name: "locations-mongodb-check",
                     tags: new string[] { "mongodb" });
+
+            return services;
+        }
+
+        public static IServiceCollection AddSwagger(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSwaggerGen(options =>
+            {
+                options.DescribeAllEnumsAsStrings();
+                options.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
+                {
+                    Title = "eShopOnContainers - Location HTTP API",
+                    Version = "v1",
+                    Description = "The Location Microservice HTTP API. This is a Data-Driven/CRUD microservice sample",
+                    TermsOfService = "Terms Of Service"
+                });
+            });
 
             return services;
         }

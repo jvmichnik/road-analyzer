@@ -11,8 +11,11 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="2.2.2" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="2.2.3" />
+    <PackageReference Include="Autofac" Version="4.9.2" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="FluentValidation" Version="8.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
@@ -20,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Levantamento.Domain\Levantamento.Domain.csproj" />
+    <ProjectReference Include="..\Levantamento.Infrastructure.Bus\Levantamento.Infrastructure.Bus.csproj" />
     <ProjectReference Include="..\Levantamento.Infrastructure\Levantamento.Infrastructure.csproj" />
   </ItemGroup>
 
