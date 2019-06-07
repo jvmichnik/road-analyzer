@@ -28,12 +28,12 @@ namespace Levantamento.Infrastructure.Repository
 
         public async Task AddLevantamentoAsync(LevantamentoRoot levantamento)
         {
-            await _context.AddCommand(() => db.InsertOneAsync(levantamento));            
+            await _context.Add(db,levantamento);            
         }
 
         public async Task UpdateLevantamentoAsync(LevantamentoRoot levantamento)
         {
-            await _context.AddCommand(() => db.ReplaceOneAsync(x => x.Id == levantamento.Id, levantamento, new UpdateOptions { IsUpsert = true }));
+            await _context.Update(db, levantamento,x => x.Id == levantamento.Id);
         }
         public void Dispose()
         {

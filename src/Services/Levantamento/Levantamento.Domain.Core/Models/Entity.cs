@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Levantamento.Domain.Core.Events;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,16 +11,16 @@ namespace Levantamento.Domain.Core.Models
         int? _requestedHashCode;
         public Guid Id { get; protected set; }
 
-        private List<INotification> _domainEvents;
-        public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly();
+        private List<Event> _domainEvents;
+        public IReadOnlyCollection<Event> DomainEvents => _domainEvents?.AsReadOnly();
 
-        public void AddDomainEvent(INotification eventItem)
+        public void AddDomainEvent(Event eventItem)
         {
-            _domainEvents = _domainEvents ?? new List<INotification>();
+            _domainEvents = _domainEvents ?? new List<Event>();
             _domainEvents.Add(eventItem);
         }
 
-        public void RemoveDomainEvent(INotification eventItem)
+        public void RemoveDomainEvent(Event eventItem)
         {
             _domainEvents?.Remove(eventItem);
         }

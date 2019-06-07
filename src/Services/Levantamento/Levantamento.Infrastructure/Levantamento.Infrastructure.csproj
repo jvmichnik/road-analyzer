@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\IntegrationEventLog\IntegrationEventLog.csproj" />
     <ProjectReference Include="..\Levantamento.Domain\Levantamento.Domain.csproj" />
   </ItemGroup>
 

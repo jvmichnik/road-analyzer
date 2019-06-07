@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Levantamento.Domain.Core.Behavior
+namespace Levantamento.Api.Application.Behavior
 {
     public class ValidatorBehavior<TRequest, TResponse> : CommandHandler, IPipelineBehavior<TRequest, TResponse>
     {
