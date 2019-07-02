@@ -6,9 +6,9 @@ using ZEventBus.Events;
 
 namespace Levantamento.Api.Application.IntegrationEvents.Events.Levantamento
 {
-    public class EventStartedIntegrationEvent : IntegrationEvent
+    public class LevantamentoStartedIntegrationEvent : IntegrationEvent
     {
-        public EventStartedIntegrationEvent(string name, string description, DateTime start)
+        public LevantamentoStartedIntegrationEvent(string name, string description, DateTime start)
         {
             Name = name;
             Description = description;

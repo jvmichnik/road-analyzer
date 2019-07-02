@@ -76,6 +76,12 @@ namespace Levantamento.Api
                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
             });
 
+
+            app.UseHealthChecks("/liveness", new HealthCheckOptions
+            {
+                Predicate = r => r.Name.Contains("self")
+            });
+
             app.UseCors("CorsPolicy");
             if (env.IsDevelopment())
             {
@@ -93,8 +99,8 @@ namespace Levantamento.Api
                 {
                     c.SwaggerEndpoint($"/swagger/v1/swagger.json", "Levantamento.API V1");
                 });
-        }
 
+        }
     }
     public static class CustomExtensionMethods
     {
@@ -107,13 +113,13 @@ namespace Levantamento.Api
             hcBuilder
                 .AddMongoDb(
                     configuration["ConnectionString"],
-                    name: "locations-mongodb-check",
+                    name: "levantamento-mongodb-check",
                     tags: new string[] { "mongodb" });
 
             hcBuilder
                     .AddRabbitMQ(
                         $"amqp://{configuration["EventBusConnection"]}",
-                        name: "ordering-rabbitmqbus-check",
+                        name: "levantamento-rabbitmqbus-check",
                         tags: new string[] { "rabbitmqbus" });
 
             return services;
@@ -209,6 +215,7 @@ namespace Levantamento.Api
 
             return services;
         }
+
         public static IServiceCollection AddSwagger(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSwaggerGen(options =>

@@ -31,7 +31,7 @@ namespace Levantamento.Api.Controllers
         public async Task<IActionResult> CreateLevantamentoAsync([FromBody] CreateLevantamentoDTO createLevantamento)
         {
             var createLevantamentoCommand = new CreateLevantamentoCommand(createLevantamento.Name, createLevantamento.Description);
-            var result =  await _mediator.SendCommand<CommandResponse>(createLevantamentoCommand);
+            var result =  await _mediator.SendCommand<CreateLeventamentoResponse> (createLevantamentoCommand);
             return Response(result);
         }
     }

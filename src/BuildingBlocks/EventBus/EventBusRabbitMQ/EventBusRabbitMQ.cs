@@ -19,12 +19,12 @@ namespace BusRabbitMQ
 {
     public class EventBusRabbitMQ : IEventBus, IDisposable
     {
-        const string BROKER_NAME = "levantamento_event_bus";
+        const string BROKER_NAME = "road_event_bus";
 
         private readonly IRabbitMQPersistentConnection _persistentConnection;
         private readonly IEventBusSubscriptionsManager _subsManager;
         private readonly ILifetimeScope _autofac;
-        private readonly string AUTOFAC_SCOPE_NAME = "levantamento_scope";
+        private readonly string AUTOFAC_SCOPE_NAME = "road_event_bus";
         private readonly int _retryCount;
 
         private IModel _consumerChannel;
@@ -40,6 +40,7 @@ namespace BusRabbitMQ
             _autofac = autofac;
             _retryCount = retryCount;
             _subsManager.OnEventRemoved += SubsManager_OnEventRemoved;
+            _subsManager.OnEventAdded += SubsManager_OnEventAdded;
         }
 
         private void SubsManager_OnEventRemoved(object sender, string eventName)
@@ -62,7 +63,22 @@ namespace BusRabbitMQ
                 }
             }
         }
+        private void SubsManager_OnEventAdded(object sender, string eventName)
+        {
+            if (!_persistentConnection.IsConnected)
+            {
+                _persistentConnection.TryConnect();
+            }
 
+            using (var channel = _persistentConnection.CreateModel())
+            {
+                channel.QueueBind(
+                    queue: _queueName,
+                    exchange: BROKER_NAME,
+                    routingKey: eventName
+                    );
+            }
+        }
         public void Publish(IntegrationEvent @event)
         {
             if (!_persistentConnection.IsConnected)
@@ -92,7 +108,6 @@ namespace BusRabbitMQ
                 {
                     var properties = channel.CreateBasicProperties();
                     properties.DeliveryMode = 2; // persistent
-
 
                     channel.BasicPublish(
                         exchange: BROKER_NAME,

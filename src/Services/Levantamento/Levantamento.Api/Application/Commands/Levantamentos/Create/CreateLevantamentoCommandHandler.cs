@@ -1,4 +1,5 @@
-﻿using Levantamento.Domain.AggregatesModel.LevantamentoAggregate;
+﻿using Levantamento.Api.Application.Commands.Levantamentos.Create.DTO;
+using Levantamento.Domain.AggregatesModel.LevantamentoAggregate;
 using Levantamento.Domain.Core.Bus;
 using Levantamento.Domain.Core.Commands;
 using Levantamento.Domain.Core.Interfaces;
@@ -14,7 +15,7 @@ namespace Levantamento.Api.Application.Commands.Levantamentos.Create
 {
     public class CreateLevantamentoCommandHandler : 
         CommandHandler,
-        IRequestHandler<CreateLevantamentoCommand, CommandResponse>
+        IRequestHandler<CreateLevantamentoCommand, CreateLeventamentoResponse>
     {
         private readonly ILevantamentoRepository _levantamentoRepository;
         private readonly IMediatorHandler Bus;
@@ -31,7 +32,7 @@ namespace Levantamento.Api.Application.Commands.Levantamentos.Create
             Bus = bus;
         }
 
-        public async Task<CommandResponse> Handle(CreateLevantamentoCommand request, CancellationToken cancellationToken)
+        public async Task<CreateLeventamentoResponse> Handle(CreateLevantamentoCommand request, CancellationToken cancellationToken)
         {
             var levantamento = new LevantamentoRoot(request.Name,request.Description);
 
@@ -39,9 +40,15 @@ namespace Levantamento.Api.Application.Commands.Levantamentos.Create
 
             if (_uow.Commit())
             {
-                return CommandResponse.Ok;
+                return new CreateLeventamentoResponse
+                {
+                    Id = levantamento.Id,
+                    Name = levantamento.Name,
+                    Description = levantamento.Description,
+                    StartedAt = levantamento.Start
+                };
             }
-            return CommandResponse.Fail;
+            return new CreateLeventamentoResponse();
         }
     }
 }

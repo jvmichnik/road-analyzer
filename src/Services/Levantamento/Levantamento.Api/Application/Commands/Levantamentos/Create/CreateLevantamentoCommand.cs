@@ -1,4 +1,5 @@
-﻿using Levantamento.Domain.Core.Commands;
+﻿using Levantamento.Api.Application.Commands.Levantamentos.Create.DTO;
+using Levantamento.Domain.Core.Commands;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Levantamento.Api.Application.Commands.Levantamentos.Create
 {
-    public class CreateLevantamentoCommand : LevantamentoCommand, IRequest<CommandResponse>
+    public class CreateLevantamentoCommand : LevantamentoCommand, IRequest<CreateLeventamentoResponse>
     {
         public CreateLevantamentoCommand(string name, string description)
         {

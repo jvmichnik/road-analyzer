@@ -10,6 +10,7 @@ namespace ZEventBus
     {
         bool IsEmpty { get; }
         event EventHandler<string> OnEventRemoved;
+        event EventHandler<string> OnEventAdded;
         void AddDynamicSubscription<TH>(string eventName)
            where TH : IDynamicIntegrationEventHandler;
 

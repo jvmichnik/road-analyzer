@@ -20,7 +20,7 @@ namespace Levantamento.Api.Application.DomainEventHandlers.LevantamentoStarted
         }
         public async Task Handle(LevantamentoStartedDomainEvent notification, CancellationToken cancellationToken)
         {
-            var eventStartedIntegrationEvent = new EventStartedIntegrationEvent(notification.Name, notification.Description, notification.Start);
+            var eventStartedIntegrationEvent = new LevantamentoStartedIntegrationEvent(notification.Name, notification.Description, notification.Start);
             await _levantamentoIntegrationEventService.AddAndSaveEventAsync(eventStartedIntegrationEvent, _context.TransactionId);
         }
     }

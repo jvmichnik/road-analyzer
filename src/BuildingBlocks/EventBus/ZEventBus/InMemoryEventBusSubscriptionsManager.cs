@@ -14,6 +14,7 @@ namespace ZEventBus
         private readonly List<Type> _eventTypes;
 
         public event EventHandler<string> OnEventRemoved;
+        public event EventHandler<string> OnEventAdded;
 
         public InMemoryEventBusSubscriptionsManager()
         {
@@ -49,6 +50,7 @@ namespace ZEventBus
             if (!HasSubscriptionsForEvent(eventName))
             {
                 _handlers.Add(eventName, new List<SubscriptionInfo>());
+                OnEventAdded?.Invoke(this, eventName);
             }
 
             if (_handlers[eventName].Any(s => s.HandlerType == handlerType))

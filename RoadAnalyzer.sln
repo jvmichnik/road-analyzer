@@ -33,7 +33,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationEventLogEF", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationEventLogMongo", "src\BuildingBlocks\EventBus\IntegrationEventLogMongo\IntegrationEventLogMongo.csproj", "{0CA2CD34-657B-4273-999A-AF585C5FD0C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusRabbitMQ", "src\BuildingBlocks\EventBus\EventBusRabbitMQ\BusRabbitMQ.csproj", "{7FFCA3AC-B1AE-4EA1-BC79-31540A085F24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusRabbitMQ", "src\BuildingBlocks\EventBus\EventBusRabbitMQ\BusRabbitMQ.csproj", "{7FFCA3AC-B1AE-4EA1-BC79-31540A085F24}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Trecho", "Trecho", "{7AA6FED5-CAB1-4990-B03C-40FC938DCF5A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trecho.Api", "src\Services\Trecho\Trecho.Api\Trecho.Api.csproj", "{C3BDB3C7-51AF-4A01-A974-B793B2F6D704}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +89,10 @@ Global
 		{7FFCA3AC-B1AE-4EA1-BC79-31540A085F24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FFCA3AC-B1AE-4EA1-BC79-31540A085F24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FFCA3AC-B1AE-4EA1-BC79-31540A085F24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3BDB3C7-51AF-4A01-A974-B793B2F6D704}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3BDB3C7-51AF-4A01-A974-B793B2F6D704}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3BDB3C7-51AF-4A01-A974-B793B2F6D704}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3BDB3C7-51AF-4A01-A974-B793B2F6D704}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +112,8 @@ Global
 		{44CFF79C-0448-4871-92FF-AE8FD4E41F6B} = {DFAC66A1-2518-49CE-8085-776EBA3F7927}
 		{0CA2CD34-657B-4273-999A-AF585C5FD0C7} = {DFAC66A1-2518-49CE-8085-776EBA3F7927}
 		{7FFCA3AC-B1AE-4EA1-BC79-31540A085F24} = {DFAC66A1-2518-49CE-8085-776EBA3F7927}
+		{7AA6FED5-CAB1-4990-B03C-40FC938DCF5A} = {477D17C3-5453-4B85-9EA4-8B1E70DBFC02}
+		{C3BDB3C7-51AF-4A01-A974-B793B2F6D704} = {7AA6FED5-CAB1-4990-B03C-40FC938DCF5A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1353AEEE-E31F-4C31-97FC-571EAD476019}
