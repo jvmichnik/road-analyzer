@@ -1,7 +1,7 @@
 ﻿using Levantamento.Api.Application.IntegrationEvents;
 using Levantamento.Api.Application.IntegrationEvents.Events.Levantamento;
 using Levantamento.Domain.Events;
-using Levantamento.Infrastructure.Context;
+using Levantamento.Infrastructure.Sql.Context;
 using MediatR;
 using System;
 using System.Threading;
@@ -20,8 +20,8 @@ namespace Levantamento.Api.Application.DomainEventHandlers.LevantamentoStarted
         }
         public async Task Handle(LevantamentoStartedDomainEvent notification, CancellationToken cancellationToken)
         {
-            var eventStartedIntegrationEvent = new LevantamentoStartedIntegrationEvent(notification.Name, notification.Description, notification.Start);
-            await _levantamentoIntegrationEventService.AddAndSaveEventAsync(eventStartedIntegrationEvent, _context.TransactionId);
+            var eventStartedIntegrationEvent = new LevantamentoStartedIntegrationEvent(notification.Id, notification.Name, notification.Description, notification.Start);
+            await _levantamentoIntegrationEventService.AddAndSaveEventAsync(eventStartedIntegrationEvent);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Levantamento.Domain.AggregatesModel.LevantamentoAggregate
 {
-    public interface ILevantamentoRepository : IDisposable
+    public interface ILevantamentoRepository
     {
         Task<IEnumerable<LevantamentoRoot>> GetLevantamentosAsync();
         Task AddLevantamentoAsync(LevantamentoRoot levantamento);

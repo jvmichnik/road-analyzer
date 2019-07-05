@@ -1,26 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using BusRabbitMQ;
 using HealthChecks.UI.Client;
-using IntegrationEventLogMongo.Services;
+using IntegrationEventLogEF;
 using Levantamento.Api.Infrastructure.AutofacModules;
 using Levantamento.Api.Infrastructure.Filters;
 using Levantamento.Infrastructure;
+using Levantamento.Infrastructure.Sql.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using ZEventBus;
 using ZEventBus.Abstractions;
@@ -40,13 +46,22 @@ namespace Levantamento.Api
         {
             services
                 .AddHealthChecks(Configuration)
+                .AddIntegrationsEF() // EF
+                .AddCustomDbContext(Configuration) // EF
                 .AddCustomIntegrations(Configuration)
+                //.AddIntegrationsMongo(Configuration) //Mongo
                 .AddCustomConfiguration(Configuration)
                 .AddSwagger(Configuration)
                 .AddEventBus(Configuration)
                 .AddMvc(options =>
             {
                 options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+                options.OutputFormatters.Remove(new XmlDataContractSerializerOutputFormatter());
+            })
+            .AddJsonOptions(options =>
+            {
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -55,7 +70,7 @@ namespace Levantamento.Api
             {
                 options.AddPolicy("CorsPolicy",
                     builder => builder
-                    .SetIsOriginAllowed((host) => true)
+                    .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials());
@@ -70,6 +85,16 @@ namespace Levantamento.Api
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
+            }
+
+            app.UseCors("CorsPolicy");
             app.UseHealthChecks("/hc", new HealthCheckOptions()
             {
                 Predicate = _ => true,
@@ -82,16 +107,6 @@ namespace Levantamento.Api
                 Predicate = r => r.Name.Contains("self")
             });
 
-            app.UseCors("CorsPolicy");
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
-
             app.UseHttpsRedirection();
             app.UseMvc();
             app.UseSwagger()
@@ -99,6 +114,12 @@ namespace Levantamento.Api
                 {
                     c.SwaggerEndpoint($"/swagger/v1/swagger.json", "Levantamento.API V1");
                 });
+
+            app.Run(context =>
+            {
+                context.Response.Redirect("/swagger");
+                return Task.CompletedTask;
+            });
 
         }
     }
@@ -110,11 +131,17 @@ namespace Levantamento.Api
 
             hcBuilder.AddCheck("self", () => HealthCheckResult.Healthy());
 
+            //hcBuilder
+            //    .AddMongoDb(
+            //        configuration["ConnectionString"],
+            //        name: "levantamento-mongodb-check",
+            //        tags: new string[] { "mongodb" });
+
             hcBuilder
-                .AddMongoDb(
-                    configuration["ConnectionString"],
-                    name: "levantamento-mongodb-check",
-                    tags: new string[] { "mongodb" });
+            .AddSqlServer(
+               configuration["ConnectionString"],
+               name: "levantamento-sql-check",
+               tags: new string[] { "levantamentodb" });
 
             hcBuilder
                     .AddRabbitMQ(
@@ -124,16 +151,36 @@ namespace Levantamento.Api
 
             return services;
         }
+        public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddEntityFrameworkSqlServer()
+                   .AddDbContext<LevantamentoContext>(options =>
+                   {
+                       options.UseSqlServer(configuration["ConnectionString"],
+                           sqlServerOptionsAction: sqlOptions =>
+                           {
+                               sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                               sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                           });
+                   },
+                       ServiceLifetime.Scoped
+                   );
+
+            services.AddDbContext<IntegrationEventLogContext>(options =>
+            {
+                options.UseSqlServer(configuration["ConnectionString"],
+                                     sqlServerOptionsAction: sqlOptions =>
+                                     {
+                                         sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                                         sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                                     });
+            });
+
+            return services;
+        }
         public static IServiceCollection AddCustomIntegrations(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            services.AddTransient<IIntegrationEventLogService>(
-                    s => new IntegrationEventLogService(
-                        configuration["Database"],
-                        configuration["ConnectionString"]
-                        )
-                    );
 
             services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
             {
@@ -163,6 +210,26 @@ namespace Levantamento.Api
                 return new DefaultRabbitMQPersistentConnection(factory, retryCount);
             });
 
+
+            return services;
+        }
+        public static IServiceCollection AddIntegrationsMongo(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddTransient<IntegrationEventLogMongo.Services.IIntegrationEventLogService>(
+                    s => new IntegrationEventLogMongo.Services.IntegrationEventLogService(
+                        configuration["Database"],
+                        configuration["ConnectionString"]
+                        )
+                    );
+
+            return services;
+        }
+        public static IServiceCollection AddIntegrationsEF(this IServiceCollection services)
+        {
+            //services.AddTransient<Func<DbConnection, IntegrationEventLogEF.Services.IIntegrationEventLogService>>(
+            //            sp => (DbConnection c) => new IntegrationEventLogEF.Services.IntegrationEventLogService(c));
+
+            services.AddTransient<IntegrationEventLogEF.Services.IIntegrationEventLogService, IntegrationEventLogEF.Services.IntegrationEventLogService>();
 
             return services;
         }
@@ -223,10 +290,8 @@ namespace Levantamento.Api
                 options.DescribeAllEnumsAsStrings();
                 options.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
                 {
-                    Title = "eShopOnContainers - Location HTTP API",
-                    Version = "v1",
-                    Description = "The Location Microservice HTTP API. This is a Data-Driven/CRUD microservice sample",
-                    TermsOfService = "Terms Of Service"
+                    Title = "RoadAnalyzer - Levantamento HTTP API",
+                    Version = "v1"
                 });
             });
 

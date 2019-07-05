@@ -10,7 +10,6 @@ using Levantamento.Domain.Core.Interfaces;
 using Levantamento.Domain.Core.Notifications;
 using Levantamento.Infrastructure.Bus;
 using Levantamento.Infrastructure.Context;
-using Levantamento.Infrastructure.Repository;
 using Levantamento.Infrastructure.UoW;
 using MediatR;
 using System.Linq;
@@ -22,8 +21,8 @@ namespace Levantamento.Api.Infrastructure.AutofacModules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<LevantamentoContext>()
-                .InstancePerLifetimeScope();
+            RegisterEF(builder);
+            //RegisterMongo(builder);
 
             builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly)
                 .AsImplementedInterfaces();
@@ -31,9 +30,6 @@ namespace Levantamento.Api.Infrastructure.AutofacModules
             builder.RegisterAssemblyTypes(typeof(CreateLevantamentoCommand).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(IRequestHandler<,>));
 
-            builder.RegisterAssemblyTypes(typeof(LevantamentoRepository).GetTypeInfo().Assembly)
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(typeof(LevantamentoStartedDomainEventHandler).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(INotificationHandler<>));
@@ -45,10 +41,6 @@ namespace Levantamento.Api.Infrastructure.AutofacModules
 
             builder.RegisterType<InMemoryBus>()
                 .As<IMediatorHandler>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<UnitOfWork>()
-                .As<IUnitOfWork>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<DomainNotificationHandler>()
@@ -66,7 +58,27 @@ namespace Levantamento.Api.Infrastructure.AutofacModules
             });
 
             builder.RegisterGeneric(typeof(ValidatorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
-            builder.RegisterGeneric(typeof(TransactionBehaviour<,>)).As(typeof(IPipelineBehavior<,>));
+            builder.RegisterGeneric(typeof(TransactionBehaviourSql<,>)).As(typeof(IPipelineBehavior<,>));
+        }
+
+        public void RegisterEF(ContainerBuilder builder)
+        {
+            builder.RegisterAssemblyTypes(typeof(Levantamento.Infrastructure.Sql.Repositories.LevantamentoRepository).GetTypeInfo().Assembly)
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+        }
+        public void RegisterMongo(ContainerBuilder builder)
+        {
+            builder.RegisterType<UnitOfWork>()
+                .As<IUnitOfWork>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<Levantamento.Infrastructure.Context.LevantamentoContext>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(typeof(Levantamento.Infrastructure.Repository.LevantamentoRepository).GetTypeInfo().Assembly)
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
         }
     }
 }

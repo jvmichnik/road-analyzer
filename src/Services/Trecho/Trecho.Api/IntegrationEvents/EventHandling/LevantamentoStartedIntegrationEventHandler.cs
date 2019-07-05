@@ -27,8 +27,7 @@ namespace Trecho.Api.IntegrationEvents.EventHandling
 
         public async Task Handle(LevantamentoStartedIntegrationEvent @event)
         {
-
-            var trecho = new TrechoDTO(@event.Name, @event.Description, @event.Start);
+            var trecho = new TrechoDTO(@event.Id, @event.Name, @event.Description, @event.Start);
 
            await _database.GetCollection<TrechoDTO>("Trecho").InsertOneAsync(trecho);
         }

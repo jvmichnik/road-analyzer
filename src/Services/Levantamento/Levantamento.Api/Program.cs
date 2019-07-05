@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using IntegrationEventLogEF;
+using Levantamento.Infrastructure.Sql.Context;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Levantamento.Api
 {
@@ -14,11 +13,28 @@ namespace Levantamento.Api
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            var host = CreateWebHostBuilder(args);
+
+            ExecuteMigration<LevantamentoContext>(host);
+            ExecuteMigration<IntegrationEventLogContext>(host);
+
+            host.Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        private static IWebHost CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .Build();
+
+        private static IWebHost ExecuteMigration<TContext>(IWebHost webHost) where TContext : DbContext
+        {
+            using (var scope = webHost.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetService<TContext>();
+                context.Database.Migrate();
+            }
+            return webHost;
+        }
     }
 }

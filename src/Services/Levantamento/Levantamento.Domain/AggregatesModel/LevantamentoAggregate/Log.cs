@@ -16,7 +16,7 @@ namespace Levantamento.Domain.AggregatesModel.LevantamentoAggregate
             Long = @long;
             Lat = lat;
             Rate = rate;
-            Speed = speed >= 0 ? speed : throw new LevantamentoDomainException(nameof(dateOccurred));
+            Speed = speed >= 0 ? speed : throw new LevantamentoDomainException(nameof(speed));
             DateOccurred = dateOccurred < DateTime.Now ? dateOccurred : throw new LevantamentoDomainException(nameof(dateOccurred));
         }
     }

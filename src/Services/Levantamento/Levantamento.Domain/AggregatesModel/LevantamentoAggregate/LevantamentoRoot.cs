@@ -18,16 +18,18 @@ namespace Levantamento.Domain.AggregatesModel.LevantamentoAggregate
 
         public LevantamentoRoot(string name, string description)
         {
+            Id = Guid.NewGuid();
             Name = !string.IsNullOrWhiteSpace(name) ? name : throw new ArgumentNullException(nameof(name));
             Description = description;
             Start = DateTime.Now;
 
-            AddLevantamentoStartedDomainEvent(Name, Description, Start);
+            AddLevantamentoStartedDomainEvent(Id,Name, Description, Start);
+            _logs = new List<Log>();
         }
 
-        private void AddLevantamentoStartedDomainEvent(string name, string description, DateTime start)
+        private void AddLevantamentoStartedDomainEvent(Guid id,string name, string description, DateTime start)
         {
-            var orderStartedDomainEvent = new LevantamentoStartedDomainEvent(name, description, start);
+            var orderStartedDomainEvent = new LevantamentoStartedDomainEvent(id,name, description, start);
 
             this.AddDomainEvent(orderStartedDomainEvent);
         }

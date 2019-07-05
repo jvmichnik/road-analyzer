@@ -9,6 +9,6 @@ namespace Levantamento.Api.Application.IntegrationEvents
     public interface ILevantamentoIntegrationEventService
     {
         Task PublishEventsThroughEventBusAsync(Guid transactionId);
-        Task AddAndSaveEventAsync(IntegrationEvent evt, Guid transactionId);
+        Task AddAndSaveEventAsync(IntegrationEvent evt);
     }
 }

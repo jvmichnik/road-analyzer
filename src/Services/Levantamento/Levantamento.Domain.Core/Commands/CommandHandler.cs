@@ -5,6 +5,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Levantamento.Domain.Core.Commands
 {
@@ -29,12 +30,12 @@ namespace Levantamento.Domain.Core.Commands
             }
         }
 
-        public bool Commit()
+        public async Task<bool> Commit()
         {
             if (_notifications.HasNotifications()) return false;
-            if (_uow.Commit()) return true;
+            if (await _uow.SaveEntitiesAsync()) return true;
 
-            _bus.RaiseEvent(new DomainNotification("Commit", "We had a problem during saving your data."));
+            await _bus.RaiseEvent(new DomainNotification("Commit", "We had a problem during saving your data."));
             return false;
         }
     }

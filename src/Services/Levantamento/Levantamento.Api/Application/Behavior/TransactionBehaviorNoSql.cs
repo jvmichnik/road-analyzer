@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace Levantamento.Api.Application.Behavior
 {
-    public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class TransactionBehaviourNoSql<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
         private readonly ILevantamentoIntegrationEventService _levantamentoIntegrationEventService;
         private readonly LevantamentoContext _context;
-        public TransactionBehaviour(ILevantamentoIntegrationEventService levantamentoIntegrationEventService, LevantamentoContext context)
+        public TransactionBehaviourNoSql(ILevantamentoIntegrationEventService levantamentoIntegrationEventService, LevantamentoContext context)
         {
             _levantamentoIntegrationEventService = levantamentoIntegrationEventService ?? throw new ArgumentException(nameof(levantamentoIntegrationEventService));
             _context = context ?? throw new ArgumentException(nameof(context));

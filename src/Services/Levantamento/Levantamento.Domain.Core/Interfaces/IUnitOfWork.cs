@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Levantamento.Domain.Core.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        bool Commit();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
+        Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }

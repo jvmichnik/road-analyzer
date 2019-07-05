@@ -38,7 +38,7 @@ namespace Levantamento.Api.Application.Commands.Levantamentos.Create
 
             await _levantamentoRepository.AddLevantamentoAsync(levantamento);
 
-            if (_uow.Commit())
+            if (await _uow.SaveEntitiesAsync())
             {
                 return new CreateLeventamentoResponse
                 {

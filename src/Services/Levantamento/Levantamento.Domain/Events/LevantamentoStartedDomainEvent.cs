@@ -8,13 +8,15 @@ namespace Levantamento.Domain.Events
 {
     public class LevantamentoStartedDomainEvent : Event
     {
-        public LevantamentoStartedDomainEvent(string name, string description, DateTime start)
+        public LevantamentoStartedDomainEvent(Guid id, string name, string description, DateTime start)
         {
+            Id = id;
             Name = name;
             Description = description;
             Start = start;
         }
 
+        public Guid Id { get; set; }
         public string Name { get; }
         public string Description { get; }
         public DateTime Start { get; }

@@ -34,7 +34,19 @@ namespace Levantamento.Infrastructure.Context
             TransactionId = Guid.NewGuid();
         }
         public Guid TransactionId { get; }
+
         public int SaveChanges()
+        {
+            var qtd = _commands.Count;
+            foreach (var command in _commands)
+            {
+                command();
+            }
+
+            _commands.Clear();
+            return qtd;
+        }
+        public int SaveEntities()
         {
             var qtd = _commands.Count;
             foreach (var ev in _events)

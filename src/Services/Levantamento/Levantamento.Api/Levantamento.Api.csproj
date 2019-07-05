@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="2.2.2" />
     <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="2.2.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="2.2.1" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="2.2.3" />
     <PackageReference Include="Autofac" Version="4.9.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
@@ -25,12 +26,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\EventBusRabbitMQ\BusRabbitMQ.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\IntegrationEventLogEF\IntegrationEventLogEF.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\IntegrationEventLogMongo\IntegrationEventLogMongo.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\IntegrationEventLog\IntegrationEventLog.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\ZEventBus\ZEventBus.csproj" />
     <ProjectReference Include="..\Levantamento.Domain\Levantamento.Domain.csproj" />
     <ProjectReference Include="..\Levantamento.Infrastructure.Bus\Levantamento.Infrastructure.Bus.csproj" />
-    <ProjectReference Include="..\Levantamento.Infrastructure\Levantamento.Infrastructure.csproj" />
+    <ProjectReference Include="..\Levantamento.Infrastructure.NoSql\Levantamento.Infrastructure.NoSql.csproj" />
+    <ProjectReference Include="..\Levantamento.Infrastructure.Sql\Levantamento.Infrastructure.Sql.csproj" />
   </ItemGroup>
 
 </Project>

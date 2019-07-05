@@ -18,15 +18,15 @@ namespace IntegrationEventLogEF.Services
         private readonly DbConnection _dbConnection;
         private readonly List<Type> _eventTypes;
 
-        public IntegrationEventLogService(DbConnection dbConnection)
+        public IntegrationEventLogService(IntegrationEventLogContext dbConnection)
         {
-            _dbConnection = dbConnection ?? throw new ArgumentNullException(nameof(dbConnection));
-            _integrationEventLogContext = new IntegrationEventLogContext(
-                new DbContextOptionsBuilder<IntegrationEventLogContext>()
-                    .UseSqlServer(_dbConnection)
-                    .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning))
-                    .Options);
-
+            //_dbConnection = dbConnection ?? throw new ArgumentNullException(nameof(dbConnection));
+            //_integrationEventLogContext = new IntegrationEventLogContext(
+            //    new DbContextOptionsBuilder<IntegrationEventLogContext>()
+            //        .UseSqlServer(_dbConnection)
+            //        .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning))
+            //        .Options);
+            _integrationEventLogContext = dbConnection;
             _eventTypes = Assembly.Load(Assembly.GetEntryAssembly().FullName)
                 .GetTypes()
                 .Where(t => t.Name.EndsWith(nameof(IntegrationEvent)))
