@@ -14,6 +14,7 @@ using Levantamento.Infrastructure.UoW;
 using MediatR;
 using System.Linq;
 using System.Reflection;
+using ZEventBus.Abstractions;
 
 namespace Levantamento.Api.Infrastructure.AutofacModules
 {
@@ -29,7 +30,6 @@ namespace Levantamento.Api.Infrastructure.AutofacModules
 
             builder.RegisterAssemblyTypes(typeof(CreateLevantamentoCommand).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(IRequestHandler<,>));
-
 
             builder.RegisterAssemblyTypes(typeof(LevantamentoStartedDomainEventHandler).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(INotificationHandler<>));

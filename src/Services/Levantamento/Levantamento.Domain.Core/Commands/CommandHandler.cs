@@ -11,13 +11,11 @@ namespace Levantamento.Domain.Core.Commands
 {
     public class CommandHandler
     {
-        private readonly IUnitOfWork _uow;
         private readonly IMediatorHandler _bus;
         private readonly DomainNotificationHandler _notifications;
 
-        public CommandHandler(IUnitOfWork uow, IMediatorHandler bus, INotificationHandler<DomainNotification> notifications)
+        public CommandHandler(IMediatorHandler bus, INotificationHandler<DomainNotification> notifications)
         {
-            _uow = uow;
             _notifications = (DomainNotificationHandler)notifications;
             _bus = bus;
         }
@@ -30,13 +28,13 @@ namespace Levantamento.Domain.Core.Commands
             }
         }
 
-        public async Task<bool> Commit()
-        {
-            if (_notifications.HasNotifications()) return false;
-            if (await _uow.SaveEntitiesAsync()) return true;
+        //public async Task<bool> Commit()
+        //{
+        //    if (_notifications.HasNotifications()) return false;
+        //    if (await _uow.SaveEntitiesAsync()) return true;
 
-            await _bus.RaiseEvent(new DomainNotification("Commit", "We had a problem during saving your data."));
-            return false;
-        }
+        //    await _bus.RaiseEvent(new DomainNotification("Commit", "We had a problem during saving your data."));
+        //    return false;
+        //}
     }
 }

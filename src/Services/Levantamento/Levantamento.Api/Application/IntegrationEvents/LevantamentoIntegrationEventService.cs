@@ -2,9 +2,11 @@
 using IntegrationEventLogEF.Services;
 using Levantamento.Domain.Core.Bus;
 using Levantamento.Infrastructure.Sql.Context;
+using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using ZEventBus.Abstractions;
@@ -15,15 +17,17 @@ namespace Levantamento.Api.Application.IntegrationEvents
     public class LevantamentoIntegrationEventService : ILevantamentoIntegrationEventService
     {
         private readonly LevantamentoContext _levantamentoContext;
+        private readonly Func<DbConnection, IIntegrationEventLogService> _integrationEventLogServiceFactory;
         private readonly IIntegrationEventLogService _eventLogService;
         private readonly IEventBus _eventBus;
         public LevantamentoIntegrationEventService(
             LevantamentoContext levantamentoContext,
-            IIntegrationEventLogService eventLogService,
+            Func<DbConnection, IIntegrationEventLogService> integrationEventLogServiceFactory,
             IEventBus eventBus)
         {
             _levantamentoContext = levantamentoContext;
-            _eventLogService = eventLogService ?? throw new ArgumentNullException(nameof(eventLogService));
+            _integrationEventLogServiceFactory = integrationEventLogServiceFactory ?? throw new ArgumentNullException(nameof(integrationEventLogServiceFactory));
+            _eventLogService = _integrationEventLogServiceFactory(_levantamentoContext.Database.GetDbConnection());
             _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
         }
         public Task AddAndSaveEventAsync(IntegrationEvent evt)

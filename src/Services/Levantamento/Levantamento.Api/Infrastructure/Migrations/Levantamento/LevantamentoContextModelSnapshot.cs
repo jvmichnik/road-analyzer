@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Levantamento.Api.Migrations
+namespace Levantamento.Api.Infrastructure.Migrations.Levantamento
 {
     [DbContext(typeof(LevantamentoContext))]
     partial class LevantamentoContextModelSnapshot : ModelSnapshot

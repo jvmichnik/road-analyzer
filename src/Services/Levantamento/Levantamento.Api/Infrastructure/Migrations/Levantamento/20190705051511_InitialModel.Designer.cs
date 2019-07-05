@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Levantamento.Api.Migrations
+namespace Levantamento.Api.Infrastructure.Migrations.Levantamento
 {
     [DbContext(typeof(LevantamentoContext))]
-    [Migration("20190704225728_TipoLog")]
-    partial class TipoLog
+    [Migration("20190705051511_InitialModel")]
+    partial class InitialModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

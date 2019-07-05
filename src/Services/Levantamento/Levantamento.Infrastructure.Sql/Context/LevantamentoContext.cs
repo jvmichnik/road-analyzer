@@ -4,6 +4,7 @@ using Levantamento.Domain.Core.Interfaces;
 using Levantamento.Infrastructure.Sql.EntityConfigurations;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Threading;
@@ -48,7 +49,7 @@ namespace Levantamento.Infrastructure.Sql.Context
         {
             if (_currentTransaction != null) return null;
 
-            _currentTransaction = await Database.BeginTransactionAsync();
+            _currentTransaction = await Database.BeginTransactionAsync(System.Data.IsolationLevel.ReadCommitted);
 
             return _currentTransaction;
         }
@@ -93,4 +94,5 @@ namespace Levantamento.Infrastructure.Sql.Context
             }
         }
     }
+    
 }

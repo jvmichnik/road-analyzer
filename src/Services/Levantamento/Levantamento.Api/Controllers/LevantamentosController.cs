@@ -18,15 +18,12 @@ namespace Levantamento.Api.Controllers
     public class LevantamentosController : BaseController
     {
         private readonly IMediatorHandler _mediator;
-        private readonly LevantamentoContext _context;
         public LevantamentosController(
             IMediatorHandler mediator,
-            LevantamentoContext context,
             INotificationHandler<DomainNotification> notifications
             ) : base(notifications, mediator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            _context = context;
         }
 
         [HttpPost]

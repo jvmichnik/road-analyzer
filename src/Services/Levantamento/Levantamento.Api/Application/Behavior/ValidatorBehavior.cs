@@ -13,8 +13,8 @@ namespace Levantamento.Api.Application.Behavior
 {
     public class ValidatorBehavior<TRequest, TResponse> : CommandHandler, IPipelineBehavior<TRequest, TResponse>
     {
-        public ValidatorBehavior(IUnitOfWork uow, IMediatorHandler bus, INotificationHandler<DomainNotification> notifications)
-            : base(uow, bus, notifications)
+        public ValidatorBehavior(IMediatorHandler bus, INotificationHandler<DomainNotification> notifications)
+            : base(bus, notifications)
         {
         }
 

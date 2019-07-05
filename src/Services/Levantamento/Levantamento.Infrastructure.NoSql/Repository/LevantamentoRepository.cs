@@ -1,4 +1,5 @@
 ﻿using Levantamento.Domain.AggregatesModel.LevantamentoAggregate;
+using Levantamento.Domain.Core.Interfaces;
 using Levantamento.Infrastructure.Context;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
@@ -14,6 +15,8 @@ namespace Levantamento.Infrastructure.Repository
     {
         private readonly LevantamentoContext _context;
         private readonly IMongoCollection<LevantamentoRoot> db;
+
+        public IUnitOfWork UnitOfWork => throw new NotImplementedException();
 
         public LevantamentoRepository(LevantamentoContext context)
         {

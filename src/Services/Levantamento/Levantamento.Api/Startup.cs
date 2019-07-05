@@ -226,11 +226,9 @@ namespace Levantamento.Api
         }
         public static IServiceCollection AddIntegrationsEF(this IServiceCollection services)
         {
-            //services.AddTransient<Func<DbConnection, IntegrationEventLogEF.Services.IIntegrationEventLogService>>(
-            //            sp => (DbConnection c) => new IntegrationEventLogEF.Services.IntegrationEventLogService(c));
-
-            services.AddTransient<IntegrationEventLogEF.Services.IIntegrationEventLogService, IntegrationEventLogEF.Services.IntegrationEventLogService>();
-
+            services.AddTransient<Func<DbConnection, IntegrationEventLogEF.Services.IIntegrationEventLogService>>(
+                        sp => (DbConnection c) => new IntegrationEventLogEF.Services.IntegrationEventLogService(c));
+            
             return services;
         }
         public static IServiceCollection AddCustomConfiguration(this IServiceCollection services, IConfiguration configuration)

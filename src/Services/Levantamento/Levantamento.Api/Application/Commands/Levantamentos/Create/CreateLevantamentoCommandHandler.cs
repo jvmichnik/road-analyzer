@@ -19,15 +19,12 @@ namespace Levantamento.Api.Application.Commands.Levantamentos.Create
     {
         private readonly ILevantamentoRepository _levantamentoRepository;
         private readonly IMediatorHandler Bus;
-        private readonly IUnitOfWork _uow;
         public CreateLevantamentoCommandHandler(
             ILevantamentoRepository levantamentoRepository,
-            IUnitOfWork uow,
             IMediatorHandler bus,
             INotificationHandler<DomainNotification> notifications
-            ) :base(uow, bus, notifications)
+            ) :base(bus, notifications)
         {
-            _uow = uow;
             _levantamentoRepository = levantamentoRepository;
             Bus = bus;
         }
@@ -38,7 +35,7 @@ namespace Levantamento.Api.Application.Commands.Levantamentos.Create
 
             await _levantamentoRepository.AddLevantamentoAsync(levantamento);
 
-            if (await _uow.SaveEntitiesAsync())
+            if (await _levantamentoRepository.UnitOfWork.SaveEntitiesAsync())
             {
                 return new CreateLeventamentoResponse
                 {

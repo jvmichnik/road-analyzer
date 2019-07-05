@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Levantamento.Api.Migrations
+namespace Levantamento.Api.Infrastructure.Migrations.Levantamento
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialModel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,10 +12,10 @@ namespace Levantamento.Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(maxLength: 150, nullable: false),
-                    Description = table.Column<string>(maxLength: 500, nullable: true),
-                    Start = table.Column<DateTime>(nullable: false),
-                    End = table.Column<DateTime>(nullable: true)
+                    Name = table.Column<string>(type: "varchar(150)", nullable: false),
+                    Description = table.Column<string>(type: "varchar(500)", nullable: true),
+                    Start = table.Column<DateTime>(type: "datetime", nullable: false),
+                    End = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,28 +27,28 @@ namespace Levantamento.Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Long = table.Column<decimal>(nullable: false),
-                    Lat = table.Column<decimal>(nullable: false),
-                    Rate = table.Column<decimal>(nullable: false),
-                    Speed = table.Column<int>(nullable: false),
-                    DateOccurred = table.Column<DateTime>(nullable: false),
-                    LevantamentoRootId = table.Column<Guid>(nullable: true)
+                    Long = table.Column<decimal>(type: "decimal(12,9)", nullable: false),
+                    Lat = table.Column<decimal>(type: "decimal(12,9)", nullable: false),
+                    Rate = table.Column<decimal>(type: "decimal(6,3)", nullable: false),
+                    Speed = table.Column<int>(type: "int", nullable: false),
+                    DateOccurred = table.Column<DateTime>(type: "datetime", nullable: false),
+                    LevantamentoId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Log", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Log_Levantamento_LevantamentoRootId",
-                        column: x => x.LevantamentoRootId,
+                        name: "FK_Log_Levantamento_LevantamentoId",
+                        column: x => x.LevantamentoId,
                         principalTable: "Levantamento",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Log_LevantamentoRootId",
+                name: "IX_Log_LevantamentoId",
                 table: "Log",
-                column: "LevantamentoRootId");
+                column: "LevantamentoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
