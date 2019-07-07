@@ -9,5 +9,6 @@ namespace Levantamento.Api.Application.Commands.Levantamentos.Create.DTO
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public DateTime Start { get; set; }
     }
 }

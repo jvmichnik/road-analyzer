@@ -31,9 +31,12 @@ namespace Levantamento.Infrastructure.Sql.EntityConfigurations
 
             builder.Property(b => b.DateOccurred)
                 .HasColumnType("datetime");
-
-            builder.Property("LevantamentoRootId")
-                .HasColumnName("LevantamentoId");
+            
+            builder
+                .HasOne(p => p.Levantamento)
+                .WithMany(x => x.Logs)
+                .HasForeignKey(p => p.LevantamentoId)
+                .HasConstraintName("FK_Log_Levantamento_LevantamentoId");
         }
     }
 }

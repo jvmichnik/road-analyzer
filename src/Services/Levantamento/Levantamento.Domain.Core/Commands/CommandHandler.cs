@@ -28,13 +28,9 @@ namespace Levantamento.Domain.Core.Commands
             }
         }
 
-        //public async Task<bool> Commit()
-        //{
-        //    if (_notifications.HasNotifications()) return false;
-        //    if (await _uow.SaveEntitiesAsync()) return true;
-
-        //    await _bus.RaiseEvent(new DomainNotification("Commit", "We had a problem during saving your data."));
-        //    return false;
-        //}
+        protected void Notify(string code ,string message)
+        {
+            _bus.RaiseEvent(new DomainNotification(code, message));
+        }
     }
 }

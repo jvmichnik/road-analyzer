@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -19,10 +20,13 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Polly;
+using Polly.Extensions.Http;
 using RabbitMQ.Client;
 using Trecho.Api.Infrastructure.Filters;
 using Trecho.Api.IntegrationEvents.EventHandling;
 using Trecho.Api.IntegrationEvents.Events;
+using Trecho.Api.ServiceClient;
 using ZEventBus;
 using ZEventBus.Abstractions;
 
@@ -65,6 +69,11 @@ namespace Trecho.Api
                     .AllowAnyHeader()
                     .AllowCredentials());
             });
+
+            services.AddHttpClient<ILevantamentoService, LevantamentoService>();
+                   //.SetHandlerLifetime(TimeSpan.FromMinutes(2))
+                   //.AddPolicyHandler(GetRetryPolicy())
+                   //.AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.Configure<DataSettings>(Configuration);
 
@@ -132,7 +141,7 @@ namespace Trecho.Api
 
             ConfigureEventBus(app);
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
             app.UseSwagger()
             .UseSwaggerUI(c =>
@@ -167,12 +176,28 @@ namespace Trecho.Api
             
 
             services.AddTransient<LevantamentoStartedIntegrationEventHandler>();
+            services.AddTransient<LevantamentoConcludedIntegrationEventHandler>();
             services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
         }
         private void ConfigureEventBus(IApplicationBuilder app)
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
             eventBus.Subscribe<LevantamentoStartedIntegrationEvent, LevantamentoStartedIntegrationEventHandler>();
+            eventBus.Subscribe<LevantamentoConcludedIntegrationEvent, LevantamentoConcludedIntegrationEventHandler>();
+        }
+        static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        {
+            return HttpPolicyExtensions
+              .HandleTransientHttpError()
+              .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+              .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+
+        }
+        static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30));
         }
     }
     public static class CustomExtensionMethods

@@ -9,5 +9,6 @@ namespace Trecho.Api
     {
         public string ConnectionString { get; set; }
         public string Database { get; set; }
+        public string LevantamentoApi { get; set; }
     }
 }

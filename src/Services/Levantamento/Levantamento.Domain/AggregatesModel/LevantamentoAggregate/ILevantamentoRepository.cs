@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Levantamento.Domain.AggregatesModel.LevantamentoAggregate
 {
-    public interface ILevantamentoRepository : IRepository<LevantamentoRoot>
+    public interface ILevantamentoRepository : IRepository<Levantamentos>
     {
-        Task<IEnumerable<LevantamentoRoot>> GetLevantamentosAsync();
-        Task AddLevantamentoAsync(LevantamentoRoot levantamento);
-        Task UpdateLevantamentoAsync(LevantamentoRoot levantamento);
+        Task<IEnumerable<Levantamentos>> GetLevantamentosAsync();
+        Task<Levantamentos> GetLevantamentoAsync(Guid id);
+        Task<Levantamentos> GetLevantamentoLogsAsync(Guid id);
+        Task AddLevantamentoAsync(Levantamentos levantamento);
+        Task UpdateLevantamentoAsync(Levantamentos levantamento);
     }
 }

@@ -15,7 +15,7 @@ namespace Levantamento.Api.Application.IntegrationEvents.Events.Levantamento
             Description = description;
             Start = start;
         }
-        public Guid Id { get; set; }
+        public Guid Id { get; }
         public string Name { get; }
         public string Description { get; }
         public DateTime Start { get; }

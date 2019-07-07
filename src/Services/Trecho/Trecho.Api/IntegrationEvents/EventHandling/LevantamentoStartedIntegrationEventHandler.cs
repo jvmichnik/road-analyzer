@@ -13,13 +13,9 @@ namespace Trecho.Api.IntegrationEvents.EventHandling
     public class LevantamentoStartedIntegrationEventHandler :
         IIntegrationEventHandler<LevantamentoStartedIntegrationEvent>
     {
-        private readonly IEventBus _eventBus;
         private readonly IMongoDatabase _database = null;
-        public LevantamentoStartedIntegrationEventHandler(IOptions<DataSettings> settings,IEventBus eventBus)
+        public LevantamentoStartedIntegrationEventHandler(IOptions<DataSettings> settings)
         {
-            _eventBus = eventBus;
-
-
             var client = new MongoClient(settings.Value.ConnectionString);
             if (client != null)
                 _database = client.GetDatabase(settings.Value.Database);

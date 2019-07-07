@@ -19,7 +19,7 @@ namespace Levantamento.Api.Infrastructure.Migrations.Levantamento
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Levantamento.Domain.AggregatesModel.LevantamentoAggregate.LevantamentoRoot", b =>
+            modelBuilder.Entity("Levantamentos.Domain.AggregatesModel.LevantamentoAggregate.Levantamento", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -42,7 +42,7 @@ namespace Levantamento.Api.Infrastructure.Migrations.Levantamento
                     b.ToTable("Levantamento");
                 });
 
-            modelBuilder.Entity("Levantamento.Domain.AggregatesModel.LevantamentoAggregate.Log", b =>
+            modelBuilder.Entity("Levantamentos.Domain.AggregatesModel.LevantamentoAggregate.Log", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -53,8 +53,7 @@ namespace Levantamento.Api.Infrastructure.Migrations.Levantamento
                     b.Property<decimal>("Lat")
                         .HasColumnType("decimal(12,9)");
 
-                    b.Property<Guid?>("LevantamentoRootId")
-                        .HasColumnName("LevantamentoId");
+                    b.Property<Guid>("LevantamentoId");
 
                     b.Property<decimal>("Long")
                         .HasColumnType("decimal(12,9)");
@@ -67,16 +66,18 @@ namespace Levantamento.Api.Infrastructure.Migrations.Levantamento
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LevantamentoRootId");
+                    b.HasIndex("LevantamentoId");
 
                     b.ToTable("Log");
                 });
 
-            modelBuilder.Entity("Levantamento.Domain.AggregatesModel.LevantamentoAggregate.Log", b =>
+            modelBuilder.Entity("Levantamentos.Domain.AggregatesModel.LevantamentoAggregate.Log", b =>
                 {
-                    b.HasOne("Levantamento.Domain.AggregatesModel.LevantamentoAggregate.LevantamentoRoot")
+                    b.HasOne("Levantamentos.Domain.AggregatesModel.LevantamentoAggregate.Levantamento", "Levantamento")
                         .WithMany("Logs")
-                        .HasForeignKey("LevantamentoRootId");
+                        .HasForeignKey("LevantamentoId")
+                        .HasConstraintName("FK_Log_Levantamento_LevantamentoId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

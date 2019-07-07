@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Levantamento.Api.Infrastructure.Migrations.Levantamento
 {
-    public partial class InitialModel : Migration
+    public partial class InitialLevantamento : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,7 +32,7 @@ namespace Levantamento.Api.Infrastructure.Migrations.Levantamento
                     Rate = table.Column<decimal>(type: "decimal(6,3)", nullable: false),
                     Speed = table.Column<int>(type: "int", nullable: false),
                     DateOccurred = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LevantamentoId = table.Column<Guid>(nullable: true)
+                    LevantamentoId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,7 +42,7 @@ namespace Levantamento.Api.Infrastructure.Migrations.Levantamento
                         column: x => x.LevantamentoId,
                         principalTable: "Levantamento",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

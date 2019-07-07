@@ -52,5 +52,9 @@ namespace Levantamento.Api.Application.IntegrationEvents
                 }
             }
         }
+        public void PublishEventAsync(IntegrationEvent evt)
+        {
+            _eventBus.Publish(evt);
+        }
     }
 }

@@ -7,9 +7,9 @@ using System.Text;
 
 namespace Levantamento.Infrastructure.Sql.EntityConfigurations
 {
-    public class LevantamentoEntityTypeConfiguration : IEntityTypeConfiguration<LevantamentoRoot>
+    public class LevantamentoEntityTypeConfiguration : IEntityTypeConfiguration<Domain.AggregatesModel.LevantamentoAggregate.Levantamentos>
     {
-        public void Configure(EntityTypeBuilder<LevantamentoRoot> config)
+        public void Configure(EntityTypeBuilder<Domain.AggregatesModel.LevantamentoAggregate.Levantamentos> config)
         {
             config.ToTable("Levantamento");
 

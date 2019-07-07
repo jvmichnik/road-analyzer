@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Trecho.Api.Models;
+using Trecho.Api.ServiceClient;
 
 namespace Trecho.Api.Controllers
 {
@@ -15,8 +16,11 @@ namespace Trecho.Api.Controllers
     public class TrechosController : Controller
     {
         private readonly IMongoDatabase _database = null;
-        public TrechosController(IOptions<DataSettings> settings)
+        private readonly ILevantamentoService _apiClient;
+        public TrechosController(IOptions<DataSettings> settings, ILevantamentoService apiClient)
         {
+            _apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
+
             var client = new MongoClient(settings.Value.ConnectionString);
             if (client != null)
                 _database = client.GetDatabase(settings.Value.Database);

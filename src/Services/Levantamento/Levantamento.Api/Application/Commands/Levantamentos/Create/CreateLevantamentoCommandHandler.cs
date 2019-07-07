@@ -31,7 +31,7 @@ namespace Levantamento.Api.Application.Commands.Levantamentos.Create
 
         public async Task<CreateLeventamentoResponse> Handle(CreateLevantamentoCommand request, CancellationToken cancellationToken)
         {
-            var levantamento = new LevantamentoRoot(request.Name,request.Description);
+            var levantamento = new Domain.AggregatesModel.LevantamentoAggregate.Levantamentos(request.Name, request.Description, request.Start);
 
             await _levantamentoRepository.AddLevantamentoAsync(levantamento);
 

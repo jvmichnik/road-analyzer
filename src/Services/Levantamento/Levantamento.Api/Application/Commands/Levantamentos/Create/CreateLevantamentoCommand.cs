@@ -10,10 +10,11 @@ namespace Levantamento.Api.Application.Commands.Levantamentos.Create
 {
     public class CreateLevantamentoCommand : LevantamentoCommand, IRequest<CreateLeventamentoResponse>
     {
-        public CreateLevantamentoCommand(string name, string description)
+        public CreateLevantamentoCommand(string name, string description, DateTime start)
         {
             Name = name;
             Description = description;
+            Start = start;
         }
 
         public override bool IsValid()

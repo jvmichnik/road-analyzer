@@ -1,4 +1,5 @@
 ﻿using IntegrationEventLogEF;
+using Levantamento.Domain.Core.Notifications;
 using Levantamento.Infrastructure.Sql.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,7 @@ namespace Levantamento.Api.Infrastructure.DesignFactoryMigration
             var optionsBuilder = new DbContextOptionsBuilder<LevantamentoContext>()
                 .UseSqlServer(".", options => options.MigrationsAssembly(GetType().Assembly.GetName().Name));
 
-            return new LevantamentoContext(optionsBuilder.Options, new NoMediator());
+            return new LevantamentoContext(optionsBuilder.Options, new NoMediator(),new DomainNotificationHandler());
         }
 
         class NoMediator : IMediator

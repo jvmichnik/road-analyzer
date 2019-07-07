@@ -10,5 +10,7 @@ namespace Levantamento.Api.Application.IntegrationEvents
     {
         Task PublishEventsThroughEventBusAsync(Guid transactionId);
         Task AddAndSaveEventAsync(IntegrationEvent evt);
+
+        void PublishEventAsync(IntegrationEvent evt);
     }
 }

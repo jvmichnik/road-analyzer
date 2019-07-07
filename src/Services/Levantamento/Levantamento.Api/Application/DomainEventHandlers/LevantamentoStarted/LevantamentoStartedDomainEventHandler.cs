@@ -12,11 +12,9 @@ namespace Levantamento.Api.Application.DomainEventHandlers.LevantamentoStarted
     public class LevantamentoStartedDomainEventHandler : INotificationHandler<LevantamentoStartedDomainEvent>
     {
         private readonly ILevantamentoIntegrationEventService _levantamentoIntegrationEventService;
-        private readonly LevantamentoContext _context;
-        public LevantamentoStartedDomainEventHandler(ILevantamentoIntegrationEventService levantamentoIntegrationEventService, LevantamentoContext context)
+        public LevantamentoStartedDomainEventHandler(ILevantamentoIntegrationEventService levantamentoIntegrationEventService)
         {
             _levantamentoIntegrationEventService = levantamentoIntegrationEventService ?? throw new ArgumentNullException(nameof(levantamentoIntegrationEventService));
-            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
         public async Task Handle(LevantamentoStartedDomainEvent notification, CancellationToken cancellationToken)
         {

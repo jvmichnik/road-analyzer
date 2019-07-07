@@ -9,6 +9,8 @@ using Autofac.Extensions.DependencyInjection;
 using BusRabbitMQ;
 using HealthChecks.UI.Client;
 using IntegrationEventLogEF;
+using Levantamento.Api.Application.IntegrationEvents.EventHandling;
+using Levantamento.Api.Application.IntegrationEvents.Events.Logs;
 using Levantamento.Api.Infrastructure.AutofacModules;
 using Levantamento.Api.Infrastructure.Filters;
 using Levantamento.Infrastructure;
@@ -65,6 +67,7 @@ namespace Levantamento.Api
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            RegisterEventBus(services);
 
             services.AddCors(options =>
             {
@@ -106,8 +109,8 @@ namespace Levantamento.Api
             {
                 Predicate = r => r.Name.Contains("self")
             });
-
-            app.UseHttpsRedirection();
+            ConfigureEventBus(app);
+            //app.UseHttpsRedirection();
             app.UseMvc();
             app.UseSwagger()
                 .UseSwaggerUI(c =>
@@ -121,6 +124,15 @@ namespace Levantamento.Api
                 return Task.CompletedTask;
             });
 
+        }
+        private void RegisterEventBus(IServiceCollection services)
+        {
+            services.AddTransient<LogSendedIntegrationEventHandler>();
+        }
+        private void ConfigureEventBus(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe<LogSendedIntegrationEvent, LogSendedIntegrationEventHandler>();
         }
     }
     public static class CustomExtensionMethods
