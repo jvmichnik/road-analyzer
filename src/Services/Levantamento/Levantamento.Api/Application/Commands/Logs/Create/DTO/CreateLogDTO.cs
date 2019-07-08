@@ -7,7 +7,6 @@ namespace Levantamento.Api.Application.Commands.Logs.Create.DTO
 {
     public class CreateLogDTO
     {
-        public Guid LevantamentoId { get; set; }
         public decimal Long { get; set; }
         public decimal Lat { get; set; }
         public decimal Rate { get; set; }

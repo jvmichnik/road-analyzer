@@ -7,7 +7,6 @@ namespace Levantamento.Api.Application.Commands.Levantamentos.Conclude.DTO
 {
     public class ConcludeLevantamentoDTO
     {
-        public Guid Id { get; set; }
         public DateTime ConcludedAt { get; set; }
     }
 }

@@ -14,10 +14,12 @@ using Levantamento.Infrastructure.Sql.Context;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Levantamento.Domain.AggregatesModel.LevantamentoAggregate;
+using Levantamento.Api.Application.Commands.Logs.Create;
+using Levantamento.Api.Application.Commands.Logs.Create.DTO;
 
 namespace Levantamento.Api.Controllers
 {
-    [Route("levantamentos")]
+    [Route("api/levantamentos")]
     public class LevantamentosController : BaseController
     {
         private readonly IMediatorHandler _mediator;
@@ -53,13 +55,24 @@ namespace Levantamento.Api.Controllers
         }
 
         [HttpPut]
-        [Route("concluded")]
+        [Route("{levantamentoId}/concluded")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> MarkAsConcludedAsync([FromBody] ConcludeLevantamentoDTO concludeLevantamento)
+        public async Task<IActionResult> MarkAsConcludedAsync([FromRoute]Guid levantamentoId,[FromBody] ConcludeLevantamentoDTO concludeLevantamento)
         {
-            var concludeLevantamentoCommand = new ConcludeLevantamentoCommand(concludeLevantamento.Id, concludeLevantamento.ConcludedAt);
+            var concludeLevantamentoCommand = new ConcludeLevantamentoCommand(levantamentoId, concludeLevantamento.ConcludedAt);
             var result = await _mediator.SendCommand<ConcludeLeventamentoResponse>(concludeLevantamentoCommand);
+            return Response(result);
+        }
+
+        [HttpPost]
+        [Route("{levantamentoId}/logs")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> CreateLogAsync([FromRoute]Guid levantamentoId,[FromBody] CreateLogDTO createLog)
+        {
+            var createLogCommand = new CreateLogCommand(levantamentoId, createLog.Long, createLog.Lat, createLog.Rate, createLog.Speed, createLog.DateOccurred);
+            var result = await _mediator.SendCommand<CreateLogResponse>(createLogCommand);
             return Response(result);
         }
     }

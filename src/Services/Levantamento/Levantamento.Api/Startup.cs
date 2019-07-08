@@ -118,11 +118,6 @@ namespace Levantamento.Api
                     c.SwaggerEndpoint($"/swagger/v1/swagger.json", "Levantamento.API V1");
                 });
 
-            app.Run(context =>
-            {
-                context.Response.Redirect("/swagger");
-                return Task.CompletedTask;
-            });
 
         }
         private void RegisterEventBus(IServiceCollection services)

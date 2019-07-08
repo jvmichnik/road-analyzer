@@ -20,7 +20,7 @@ namespace Trecho.Api.ServiceClient
         }
         public async Task<TrechoDTO> GetLogs(Guid idLevantamento)
         {
-            var uri = $"{_settings.LevantamentoApi}/levantamentos/{idLevantamento}/logs";
+            var uri = $"{_settings.LevantamentoApi}/api/levantamentos/{idLevantamento}/logs";
             var responseString = await _apiClient.GetStringAsync(uri);
 
             return string.IsNullOrEmpty(responseString) ?

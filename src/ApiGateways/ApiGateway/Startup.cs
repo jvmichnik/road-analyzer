@@ -82,7 +82,7 @@ namespace ApiGateway
                 Predicate = r => r.Name.Contains("self")
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseSwagger()
             .UseSwaggerUI(c =>
             {
@@ -90,10 +90,7 @@ namespace ApiGateway
                 c.SwaggerEndpoint("https://localhost:44302/swagger/v1/swagger.json", "Trecho.Api v1");
             });
             app.UseOcelot().Wait();
-            app.Run(context => {
-                context.Response.Redirect("/swagger");
-                return Task.CompletedTask;
-            });
+
         }
     }
 }
