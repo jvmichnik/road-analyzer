@@ -1,0 +1,15 @@
+.label-conteudo{
+    color: white;
+    padding: 3px 20px;
+    border-radius: 15px;
+}
+.label-conteudo-finalizado{
+    color: white;
+    padding: 3px 20px;
+    border-radius: 15px;
+}
+.value-conteudo{
+    font-size: 14px;
+    font-weight: 700;
+}
+

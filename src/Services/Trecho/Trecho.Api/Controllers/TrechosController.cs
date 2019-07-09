@@ -26,7 +26,7 @@ namespace Trecho.Api.Controllers
                 _database = client.GetDatabase(settings.Value.Database);
         }
 
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Get()

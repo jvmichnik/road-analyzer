@@ -47,7 +47,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Levantamento.Infrastructure
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Console", "Console", "{A24F4F0F-1853-480C-8083-49F64276C493}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Levantamento.Console", "src\Console\Levantamento.Console\Levantamento.Console.csproj", "{768514F6-FA41-405E-8006-3AC5E832E9BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Levantamento.Console", "src\Console\Levantamento.Console\Levantamento.Console.csproj", "{768514F6-FA41-405E-8006-3AC5E832E9BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Levantamento.SignalR", "src\Services\Levantamento\Levantamento.SignalR\Levantamento.SignalR.csproj", "{F10ACF68-3AB9-4FE5-B1A5-E0D9D0C8729E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,6 +117,10 @@ Global
 		{768514F6-FA41-405E-8006-3AC5E832E9BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{768514F6-FA41-405E-8006-3AC5E832E9BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{768514F6-FA41-405E-8006-3AC5E832E9BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F10ACF68-3AB9-4FE5-B1A5-E0D9D0C8729E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F10ACF68-3AB9-4FE5-B1A5-E0D9D0C8729E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F10ACF68-3AB9-4FE5-B1A5-E0D9D0C8729E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F10ACF68-3AB9-4FE5-B1A5-E0D9D0C8729E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -141,6 +147,7 @@ Global
 		{02F727EC-7CFA-4F93-8880-7EAD9B2E59BB} = {E184C8EE-5A9D-4E76-8654-85AD9A2DFBF8}
 		{A24F4F0F-1853-480C-8083-49F64276C493} = {0D51236E-D76E-40D8-8B18-3CB2684CF953}
 		{768514F6-FA41-405E-8006-3AC5E832E9BD} = {A24F4F0F-1853-480C-8083-49F64276C493}
+		{F10ACF68-3AB9-4FE5-B1A5-E0D9D0C8729E} = {E184C8EE-5A9D-4E76-8654-85AD9A2DFBF8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1353AEEE-E31F-4C31-97FC-571EAD476019}

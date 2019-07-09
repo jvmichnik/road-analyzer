@@ -1,0 +1,10 @@
+.title-header{
+    font-family: 'Oswald', sans-serif;
+}
+a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover, a.navbar-item.is-active, .navbar-link:focus, .navbar-link:focus-within, .navbar-link:hover, .navbar-link.is-active {
+    background-color: #ffffff !important;
+    color: #363636 !important;
+}
+.navbar {
+    min-height: 5.25rem !important;
+}

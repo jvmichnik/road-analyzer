@@ -35,6 +35,15 @@ namespace Levantamento.Api.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetLevantamentoAsync()
+        {
+            var result = await _repository.GetLevantamentosAsync();
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("{idLevantamento}/logs")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
