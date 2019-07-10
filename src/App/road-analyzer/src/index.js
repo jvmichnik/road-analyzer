@@ -8,10 +8,12 @@ import thunk from 'redux-thunk'
 
 import Routes from './main/routes';
 import reducers from './main/reducers'
-import { signalRRegisterCommands } from './main/signalRInvokeMiddleware'
+import { signalRRegisterCommands } from './main/signalRInvokeMiddleware.jsx'
+import { MessageContainer } from './common/msg/messages'
 
 import './index.css';
 import 'bulma/css/bulma.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -22,6 +24,7 @@ signalRRegisterCommands(store, () => {
     ReactDOM.render(
     <Provider store={store}>
         <Routes />
+        <MessageContainer />
     </Provider>
 , document.getElementById('root')
 )});

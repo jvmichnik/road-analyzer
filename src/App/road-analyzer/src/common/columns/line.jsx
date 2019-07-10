@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-export default props => (
-    <div className="container">
-        <div className="columns">
-            {props.children}
-        </div>
-    </div>
-)
+class Line extends Component {
+
+    render(){
+        return (
+            <div className="container">
+                <div className="columns">
+                    {this.props.children}
+                </div>
+            </div>
+        )
+    }
+}
+export default Line;
