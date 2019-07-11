@@ -21,9 +21,7 @@ class Home extends Component {
     renderRows(){
         const list = this.props.trechos
         const adicionado = this.props.adicionado
-        console.log(list);
         if(list.length === 0){
-            console.log('foi');
             return  <Line>
                         <Column size="12">
                             <div className="notification">
@@ -34,15 +32,14 @@ class Home extends Component {
         }
 
         return list.map((item, index) => {
-            const startDate = item.start ? new Date(item.start).toLocaleString('pt-BR') : "";
-            const endDate = item.end ? new Date(item.end).toLocaleString('pt-BR') : "";
-            
+            const className = `box box-${item.end ? "down" : "up"}`
+
             return <CSSTransition key={item.id }
-                    classNames={`${item.id === adicionado.id ? "slide" : ""}`}
+                    classNames={`${adicionado && item.id === adicionado.id ? "slide" : ""}`}
                     timeout={{ enter: 50000, exit: 30000 }}>
                         <Line>
                             <Column size="12">
-                                <Card title={item.name} description={item.description} start={startDate} end={endDate}/>
+                                <Card id={item.id} title={item.name} description={item.description} start={item.start} end={item.end} className={className}/>
                             </Column>
                         </Line>
                     </CSSTransition>

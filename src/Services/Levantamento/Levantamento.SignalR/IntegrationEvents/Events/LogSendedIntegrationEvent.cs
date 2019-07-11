@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ZEventBus.Events;
 
-namespace Trecho.Api.Models
+namespace Levantamento.SignalR.IntegrationEvents.Events
 {
-    public class LogDTO
+    public class LogSendedIntegrationEvent : IntegrationEvent
     {
-        public LogDTO(Guid id, decimal @long, decimal lat, decimal rate, int speed, DateTime dateOccurred)
+        public LogSendedIntegrationEvent(Guid levantamentoId, decimal @long, decimal lat, decimal rate, int speed, DateTime dateOccurred)
         {
-            Id = id;
+            LevantamentoId = levantamentoId;
             Long = @long;
             Lat = lat;
             Rate = rate;
             Speed = speed;
             DateOccurred = dateOccurred;
         }
-        public Guid Id { get; set; }
+        public Guid LevantamentoId { get; private set; }
         public decimal Long { get; private set; }
         public decimal Lat { get; private set; }
         public decimal Rate { get; private set; }

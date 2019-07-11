@@ -8,8 +8,7 @@ import thunk from 'redux-thunk'
 
 import Routes from './main/routes';
 import reducers from './main/reducers'
-import { signalRRegisterCommands } from './main/signalRInvokeMiddleware.jsx'
-import { MessageContainer } from './common/msg/messages'
+import signalRInvokeMiddleware, {  signalRRegisterCommands } from './main/signalRInvokeMiddleware.jsx'
 
 import './index.css';
 import 'bulma/css/bulma.css'
@@ -19,12 +18,11 @@ import * as serviceWorker from './serviceWorker';
 
 const devTools = window.__REDUX_DEVTOOLS_EXTENSION__ 
 && window.__REDUX_DEVTOOLS_EXTENSION__()
-const store = applyMiddleware(thunk, promise)(createStore)(reducers, devTools)
+const store = applyMiddleware(thunk, promise, signalRInvokeMiddleware)(createStore)(reducers, devTools)
 signalRRegisterCommands(store, () => {
     ReactDOM.render(
     <Provider store={store}>
-        <Routes />
-        <MessageContainer />
+        <Routes/>
     </Provider>
 , document.getElementById('root')
 )});

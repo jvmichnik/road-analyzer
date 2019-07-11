@@ -19,5 +19,14 @@ namespace Levantamento.SignalR
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, "all");
             await base.OnDisconnectedAsync(ex);
         }
+
+        public Task JoinGroup(string group)
+        {
+            return Groups.AddToGroupAsync(Context.ConnectionId, group);
+        }
+        public Task LeaveGroup(string group)
+        {
+            return Groups.RemoveFromGroupAsync(Context.ConnectionId, group);
+        }
     }
 }

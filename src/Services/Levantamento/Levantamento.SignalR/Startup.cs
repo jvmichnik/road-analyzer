@@ -49,6 +49,7 @@ namespace Levantamento.SignalR
 
             services.AddTransient<LevantamentoStartedIntegrationEventHandler>();
             services.AddTransient<LevantamentoConcludedIntegrationEventHandler>();
+            services.AddTransient<LogSendedIntegrationEventHandler>();
             services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
 
             var container = new ContainerBuilder();
@@ -61,6 +62,7 @@ namespace Levantamento.SignalR
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
             eventBus.Subscribe<LevantamentoStartedIntegrationEvent, LevantamentoStartedIntegrationEventHandler>();
             eventBus.Subscribe<LevantamentoConcludedIntegrationEvent, LevantamentoConcludedIntegrationEventHandler>();
+            eventBus.Subscribe<LogSendedIntegrationEvent, LogSendedIntegrationEventHandler>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

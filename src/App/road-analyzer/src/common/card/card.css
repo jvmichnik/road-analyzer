@@ -9,15 +9,24 @@
     padding: 0 !important;
     box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0px 1px 3px 1px rgba(10, 10, 10, 0.1) !important;
 }
+.box-detail{
+    position: absolute;
+    z-index: 1000;
+    width: 1000px;
+    border-radius: 0px 0px 75px 0px !important;
+}
 .box-up{
     border-radius: 5px 0px 75px 5px !important;
 }
 .box-down{
     border-radius: 5px 75px 0px 5px !important;
 }
-.box:hover {
+.box:hover{
     color: #363636;
     text-decoration: none;
+}
+.box-down.box:hover,
+.box-up.box:hover {
     box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px #23d160 !important;
 }
 .box p{
@@ -40,7 +49,6 @@
     text-align: center;
     width: 100%;
     height: 100%;
-    border-radius: 0px 75px 0px 75px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -48,4 +56,13 @@
     font-size: 12px;
     font-weight: 600;
     color:white
+}
+.box-down .concluded{
+    border-radius: 0px 75px 0px 75px;
+}
+.box-down .concluded{
+    border-radius: 0px 75px 0px 75px;
+}
+.box-detail .concluded{
+    border-radius: 75px 0px 75px 0px;
 }

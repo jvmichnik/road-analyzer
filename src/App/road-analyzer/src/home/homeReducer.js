@@ -2,8 +2,6 @@ import { sortListLevantamentos } from '../common/functions/sort'
 
 const INITIAL_STATE = { trechos: [], adicionado:{} }
 
-
-
 export default function(state = INITIAL_STATE, action) {
     switch (action.type) {
         case 'TRECHOS_FETCHED':

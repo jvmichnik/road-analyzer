@@ -6,8 +6,12 @@ import LabelFinalizado from './labelFinalizado'
 import LabelProgresso from './labelProgresso'
 import './card.css'
 
-export default props => (
-    <Link to='/detail' className={`box box-${props.end ? "down" : "up"}`}>
+export default function(props){
+
+    const startDate = props.start ? new Date(props.start).toLocaleString('pt-BR') : "";
+    const endDate = props.end ? new Date(props.end).toLocaleString('pt-BR') : "";
+
+    return <Link to={`/detail/${props.id}`} className={props.className}>
         <article className="media">
             <div className="media-content columns" style={{margin: 0}}>
                 <Conteudocard size="7">
@@ -23,13 +27,13 @@ export default props => (
                     <div style={{textAlign: 'center', width: '100%'}}>
                         <span className='label-conteudo'>INICIADO</span> 
                         <br/>
-                        <span className='value-conteudo'>{props.start}</span>
+                        <span className='value-conteudo'>{startDate}</span>
                     </div>
                 </Conteudocard>
                 <Conteudocard size="3">
-                    {props.end ? <LabelFinalizado color='label-conteudo' value={props.end}/> : <LabelProgresso/> }
+                    {endDate ? <LabelFinalizado color='label-conteudo' value={endDate}/> : <LabelProgresso/> }
                 </Conteudocard>
             </div>
         </article>
     </Link>
-)
+}

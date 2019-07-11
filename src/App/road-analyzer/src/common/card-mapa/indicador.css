@@ -1,0 +1,27 @@
+.card-indicador{
+    position: absolute;
+    bottom: 0;
+    width: 530px;
+    z-index: 1000;
+    background-color: white;
+    padding: 10px 0px;
+    border-radius: 0px 100px 0px 0px;
+    border: 1px solid #909090;
+}
+.card-indicador span{
+    font-size: 15px;
+}
+.indicador-status{
+    text-align: center
+}
+.indicador-status p{
+    margin: 0
+}
+.indicador-status .value{
+    line-height: 1;
+    font-size: 30px;
+    font-weight: 700;
+}
+.indicador-status .label{
+    font-weight: 500;
+}

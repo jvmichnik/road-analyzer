@@ -6,6 +6,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.esri-ui-top-left {
+  top: 70px;
+}
 .Toastify__toast-container--bottom-center {
   bottom: 0;
 }
@@ -21,7 +24,7 @@ body {
 }
 .Toastify__toast {
   min-height: 55px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 4.5rem;
   padding: 0px 20px;
 }
 .Toastify__toast-container--bottom-center {
@@ -71,4 +74,7 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+.esri-component.esri-attribution.esri-widget{
+  display: none;
 }
