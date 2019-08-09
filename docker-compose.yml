@@ -41,7 +41,7 @@ services:
       - rabbitmq
 
   apigateway:
-    image: ${REGISTRY:-eshop}/ocelotapigw:${PLATFORM:-linux}-${TAG:-latest}
+    image: ${DOCKER_REGISTRY-}ocelotapigw:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: src/ApiGateways/ApiGateway/Dockerfile

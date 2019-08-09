@@ -15,7 +15,8 @@ namespace Levantamento.Consoles
             var cond = "";
             while (cond != "y")
             {
-                var apiClient = new ServiceClient("http://localhost:8080");
+                var apiClient = new ServiceClient("http://ec2-18-228-156-207.sa-east-1.compute.amazonaws.com:8080");
+                //var apiClient = new ServiceClient("http://localhost:8080");
 
                 //Criar levantamento e deserializar
                 var levantamento = new LevantamentoDTO("Teste", "Teste2");

@@ -52,7 +52,7 @@ body {
 .slide-enter {
   transform: translateX(-100vw);
   opacity: 0;
-  position: absolute;
+  /* position: absolute; */
   
 }
 .slide-enter.slide-enter-active {
@@ -77,4 +77,13 @@ code {
 }
 .esri-component.esri-attribution.esri-widget{
   display: none;
+}
+@media (max-width: 765px) {
+  .Toastify__toast-container {
+      width: 90%;
+  }
+  .Toastify__toast {
+      padding: 10px 20px;
+      margin-bottom: 1.5rem;
+  }
 }

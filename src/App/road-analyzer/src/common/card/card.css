@@ -1,3 +1,4 @@
+
 .label-conteudo{
     font-size: 12px !important;
 }
@@ -65,4 +66,44 @@
 }
 .box-detail .concluded{
     border-radius: 75px 0px 75px 0px;
+}
+@media (max-width: 765px) 
+{
+    .box-down {
+        border-radius: 5px 75px 0px 62px !important;
+        margin-bottom: 15px;
+    }
+    .box-down .concluded {
+        padding: 12px 0px;
+    }
+    .box-detail {
+        width: 100%;
+        border-radius: 0px 0px 0px 0px !important;
+    }
+    .box-detail .concluded {
+        border-radius: 0px;
+        padding: 12px;
+    }
+    .card-indicador {
+        width: 100% !important;
+        border-radius: 0px !important;
+    }
+    .card-indicador .title{
+        margin: 0 !important;
+        text-align: center;
+    }
+    .card-indicador .column{
+        padding: 5px !important;
+    }
+    .box-up{
+        border-radius: 5px 0px 60px 5px !important;
+    }
+    .box-up .in-progress {
+        border-radius: 55px 0px 65px 5px !important;
+        padding: 18px;
+    }
+    .box-detail .in-progress {
+        border-radius: 0px;
+        padding: 12px;
+    }
 }

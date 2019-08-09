@@ -26,7 +26,6 @@ class Detail extends Component {
     }
     render(){
         const { logActual, trecho } = this.props.levantamentos[this.props.match.params.id] || { trecho: {}, logActual: { lat: 0, long: 0 } }
-
         var logs = trecho.logs || []
 
         const className = `box box-detail`
