@@ -19,6 +19,16 @@ namespace Levantamento.Consoles.ApiClient.Model
             DateOccurred = DateTime.Now;
         }
 
+        public LogDTO(decimal @long, decimal lat, decimal rate, int speed = 30)
+        {
+            Long = @long;
+            Lat = lat;
+            Rate = rate;
+            Speed = CalculoSpeed(speed);
+
+            DateOccurred = DateTime.Now;
+        }
+
         public Decimal Long { get; private set; }
         public Decimal Lat { get; private set; }
         public Decimal Rate { get; private set; }

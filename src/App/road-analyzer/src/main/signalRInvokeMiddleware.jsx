@@ -5,8 +5,8 @@ import { toast } from 'react-toastify';
 import { MessageLevantamentoIniciado } from '../common/msg/messages'
 
   const connection = new SignalR.HubConnectionBuilder()
-  .withUrl('http://ec2-18-228-156-207.sa-east-1.compute.amazonaws.com:8083/notificationhub')
-  //.withUrl('http://localhost:8083/notificationhub')
+  //.withUrl('http://ec2-18-228-156-207.sa-east-1.compute.amazonaws.com:8083/notificationhub')
+  .withUrl('http://localhost:8083/notificationhub')
   .build();
 
 export default function signalRInvokeMiddleware(store) {
